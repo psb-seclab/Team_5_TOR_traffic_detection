@@ -1,1 +1,3 @@
-# Team_5_TOR_traffic_detection
+# Tor traffic detection
+
+This project is designed to detect whether trafic originates from the tor network
