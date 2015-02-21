@@ -12,6 +12,8 @@
 import dpkt
 import socket
 import sys
+import atlas_tools as atlas
+import datetime
 
 
 if __name__ == "__main__":
@@ -28,6 +30,7 @@ if __name__ == "__main__":
 		exit(-2)
 
 	pcap = dpkt.pcap.Reader(inFile)
+	destinations = []
 
 	for ts, buf in pcap:
 		
@@ -42,7 +45,15 @@ if __name__ == "__main__":
 			src_ip_addr_str = socket.inet_ntop(socket.AF_INET, ip.src)
 			dst_ip_addr_str = socket.inet_ntop(socket.AF_INET, ip.dst)
 
-		print "source:", src_ip_addr_str
-		print "destination:", dst_ip_addr_str
+		if destinations.count(dst_ip_addr_str) < 1:
+			destinations.append(dst_ip_addr_str)
 
-		
+
+	for destination in destinations:
+
+		utc_ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+
+		if atlas.checkRelay(destination, utc_ts):
+			print "%s is Tor traffic" % destination
+		else:
+			print "%s is not Tor traffic" % destination
