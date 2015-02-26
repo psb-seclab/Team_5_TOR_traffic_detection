@@ -33,7 +33,8 @@ if __name__ == "__main__":
 		
 		eth_layer = dpkt.ethernet.Ethernet(buf)
 		ip = eth_layer.data
-		
+		tcp = ip.data
+
 		if (type(ip) == dpkt.ip6.IP6):
 			src_ip_addr_str = socket.inet_ntop(socket.AF_INET6, ip.src)
 			dst_ip_addr_str = socket.inet_ntop(socket.AF_INET6, ip.dst)
@@ -42,7 +43,13 @@ if __name__ == "__main__":
 			src_ip_addr_str = socket.inet_ntop(socket.AF_INET, ip.src)
 			dst_ip_addr_str = socket.inet_ntop(socket.AF_INET, ip.dst)
 
-		print "source:", src_ip_addr_str
-		print "destination:", dst_ip_addr_str
+		#print "source:", src_ip_addr_str
+		#print "destination:", dst_ip_addr_str
+		#UNTESTED SO FAR
+		if len(tcp.data) > 0:
+			headers = dpkt.http.Request(buf).headers
+			if 'via' in headers.keys() or 'forwarded-for' in headers.keys() or 'x-forwarded-for' in headers.keys():
+				print "HTTP Proxy Detected: " + src_ip_addr_str
+
 
 		
