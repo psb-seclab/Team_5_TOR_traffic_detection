@@ -47,7 +47,8 @@ if __name__ == "__main__":
 		#print "destination:", dst_ip_addr_str
 		#UNTESTED SO FAR
 		if len(tcp.data) > 0:
-			headers = dpkt.http.Request(buf).headers
+			request = dpkt.http.Request(tcp.data)
+			headers = request.headers
 			if 'via' in headers.keys() or 'forwarded-for' in headers.keys() or 'x-forwarded-for' in headers.keys():
 				print "HTTP Proxy Detected: " + src_ip_addr_str
 
