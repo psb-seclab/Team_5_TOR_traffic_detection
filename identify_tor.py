@@ -1,12 +1,13 @@
 """
 	Requires:
 		dpkt Python library
+		Requests Python library (indirectly required via atlas_tools.py)
 	Run:
-		python parse_pcap.py <pcap_filename>
+		python identify_tor.py <pcap_filename>
 	Output:
-		For each packet in pcap_filename:
-			source: <source_string>
-			destination: <destination_string>
+		For each destination IP in pcap_filename:
+			If IP is Tor relay: 	<IP> is Tor traffic
+			If IP is not Tor relay	<IP> is not Tor traffic 
 """
 
 import dpkt
