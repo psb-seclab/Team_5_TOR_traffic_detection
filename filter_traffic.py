@@ -21,6 +21,7 @@ from subprocess import call
 
 allowlist = []
 blocklist = []
+torlist = []
 
 my_ip_address = socket.gethostbyname(socket.gethostname())
 
@@ -113,7 +114,9 @@ if __name__ == "__main__":
 	ts = time.time()
         utc_ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
         if atlas.checkRelay(s_addr, utc_ts):
-          print "%s is Tor traffic" % destination
+          if s_addr not in torlist:
+            print "%s is Tor traffic" % destination
+            torlist.append(s_addr)
         else:
           if s_addr not in allowlist:
             print "Packet from " + s_addr + " is allowed"
