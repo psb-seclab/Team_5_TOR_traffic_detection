@@ -19,7 +19,7 @@ from struct import *
 from StringIO import StringIO
 from subprocess import call
 
-my_ip_address = '172.31.17.67'
+my_ip_address = socket.gethostbyname(socket.gethostname())
 
 def populate_proxy_list (proxy_list):
   page = StringIO()	
