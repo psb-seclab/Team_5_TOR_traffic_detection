@@ -108,6 +108,7 @@ if __name__ == "__main__":
           print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
           print "Blocking ip address " + s_addr + " using command: iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"
           os.system("iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP")
+          blocklist.append(s_addr)
       else:
 	ts = time.time()
         utc_ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
