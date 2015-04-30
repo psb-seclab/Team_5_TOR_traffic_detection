@@ -12,8 +12,9 @@ This script works to block traffic to the server that is originating from a TOR 
 
 Thanks to http://www.binarytides.com/python-packet-sniffer-code-linux/ as some of its basic sniffing code has been used in this script
 """
- 
-import socket, sys, pycurl, os
+
+import socket, sys, pycurl, os, datetime, time
+import atlas_tools as atlas
 from struct import *
 from StringIO import StringIO
 from subprocess import call
@@ -55,8 +56,15 @@ if __name__ == "__main__":
   my_proxy_list = []
   populate_proxy_list(my_proxy_list)
 
+  i = 0
   # receive a packet
   while True:
+    i = i + 1
+
+    if (i % 2048 == 0): 
+	populate_proxy_list(my_proxy_list)
+	print "Checking for more proxy ip addresses"
+
     packet = s.recvfrom(65565)
          
     #packet string from tuple
@@ -97,7 +105,13 @@ if __name__ == "__main__":
         print "Blocking ip address " + s_addr + " using command: iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"
         os.system("iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP")
       else:
-        print "Packet from " + s_addr + " is allowed"
+	ts = time.time()
+        utc_ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
+        if atlas.checkRelay(s_addr, utc_ts):
+          print "%s is Tor traffic" % destination
+        else:
+          print "Packet from " + s_addr + " is allowed"
+
 #      elif (d_addr != my_ip_address and d_addr in my_proxy_list):
 #        print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 #        print "Blocking ip address ", d_addr
