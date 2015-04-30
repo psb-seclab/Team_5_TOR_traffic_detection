@@ -21,6 +21,7 @@ from subprocess import call
 
 allowlist = []
 blocklist = []
+checked = []
 torlist = []
 
 my_ip_address = socket.gethostbyname(socket.gethostname())
@@ -90,6 +91,8 @@ if __name__ == "__main__":
     protocol = iph[6]
     s_addr = socket.inet_ntoa(iph[8]);
     d_addr = socket.inet_ntoa(iph[9]);
+    if s_addr in checked:
+    	continue
      
     tcp_header = packet[iph_length:iph_length+20]
      
