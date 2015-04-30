@@ -54,11 +54,11 @@ if __name__ == "__main__":
 
   my_proxy_list = []
   populate_proxy_list(my_proxy_list)
- 
+
   # receive a packet
   while True:
     packet = s.recvfrom(65565)
-     
+         
     #packet string from tuple
     packet = packet[0]
      
@@ -94,9 +94,10 @@ if __name__ == "__main__":
     if (source_port != 22 and dest_port != 22):    
       if (s_addr != my_ip_address and s_addr in my_proxy_list):
         print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
-        print "Blocking ip address ", s_addr
+        print "Blocking ip address " + s_addr + " using command: iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"
         os.system("iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP")
-
+      else:
+        print "Packet from " + s_addr + " is allowed"
 #      elif (d_addr != my_ip_address and d_addr in my_proxy_list):
 #        print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 #        print "Blocking ip address ", d_addr
