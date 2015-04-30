@@ -93,6 +93,7 @@ if __name__ == "__main__":
     d_addr = socket.inet_ntoa(iph[9]);
     if s_addr in checked:
     	continue
+    checked.append(s_addr)
      
     tcp_header = packet[iph_length:iph_length+20]
      
