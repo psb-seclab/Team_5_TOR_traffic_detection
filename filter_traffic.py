@@ -125,7 +125,7 @@ if __name__ == "__main__":
             torlist.append(s_addr)
         else:
           if s_addr not in allowlist:
-            print "Packet from " + s_addr + " is allowed"
+            print "Traffic from " + s_addr + " is allowed"
             allowlist.append(s_addr)
 
 #        print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
