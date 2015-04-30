@@ -92,25 +92,15 @@ if __name__ == "__main__":
     tcph_length = doff_reserved >> 4
 
     if (source_port != 22 and dest_port != 22):    
-#      for proxy_ip in my_proxy_list:
-#        print proxy_ip,
-#        if (s_addr == proxy_ip or d_addr == proxy_ip):
-#          print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
-
       if (s_addr != my_ip_address and s_addr in my_proxy_list):
         print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
         print "Blocking ip address ", s_addr
-#        call(["iptables", "-A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"])
-#        print "-A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"
         os.system("iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP")
+
 #      elif (d_addr != my_ip_address and d_addr in my_proxy_list):
 #        print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 #        print "Blocking ip address ", d_addr
 ##        call(["iptables", "-A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP"])
 ##        print "-A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP"
 #        os.system("iptables -A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP")
-
-        
-
-#      print source_port, dest_port
 
