@@ -115,17 +115,17 @@ if __name__ == "__main__":
         utc_ts = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
         if atlas.checkRelay(s_addr, utc_ts):
           if s_addr not in torlist:
-            print "%s is Tor traffic" % destination
+            print "%s is Tor traffic" % s_addr
+            print "Blocking ip address " + s_addr + " using command: iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP"
+            os.system("iptables -A INPUT -p tcp -s "+s_addr+"/32 -d 0/0 -j DROP")
             torlist.append(s_addr)
         else:
           if s_addr not in allowlist:
             print "Packet from " + s_addr + " is allowed"
             allowlist.append(s_addr)
 
-#      elif (d_addr != my_ip_address and d_addr in my_proxy_list):
 #        print 'Version : ' + str(version) + ' IP Header Length : ' + str(ihl) + ' TTL : ' + str(ttl) + ' Protocol : ' + str(protocol) + ' Source Address : ' + str(s_addr) + ' Destination Address : ' + str(d_addr)
 #        print "Blocking ip address ", d_addr
 ##        call(["iptables", "-A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP"])
 ##        print "-A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP"
 #        os.system("iptables -A INPUT -p tcp -s "+d_addr+"/32 -d 0/0 -j DROP")
-
