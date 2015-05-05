@@ -17,7 +17,6 @@ import socket, sys, pycurl, os, datetime, time
 import atlas_tools as atlas
 from struct import *
 from StringIO import StringIO
-from subprocess import call
 
 allowlist = []
 blocklist = []
